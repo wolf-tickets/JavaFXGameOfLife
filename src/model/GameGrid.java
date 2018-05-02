@@ -13,16 +13,31 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The grid of "cells" that make up the playing area. Extends the JavaFX GridPane class.
+ *
+ * @see javafx.scene.layout.GridPane
+ */
+
 class GameGrid extends GridPane {
 
+    private final Button startStopButton; //class-level declaration: methods change it from stop to start and vice-versa
     private Timeline gameTimeline;
-    private Button startStopButton;
     private ArrayList<CellButton> cellList;
+
+    /**
+     * Constructor for the GameGrid class. Takes an integer dimension value and constructs
+     * a square grid of CellButtons, plus a Button Bar with the stop/start button, clear button, and exit button.
+     *
+     * @param gridSize the dimension of the square grid.
+     * @see CellButton
+     */
 
     GameGrid(int gridSize) {
 
         populateCells(gridSize);
         setAlignment(Pos.CENTER);
+
         startStopButton = new Button("Start");
         startStopButton.setDefaultButton(true);
         startStopButton.setOnAction(value -> runGame());
@@ -53,6 +68,14 @@ class GameGrid extends GridPane {
 
     }
 
+    /**
+     * Populates the GameGrid with the required number of CellButtons (gridSize * gridSize).
+     * Also creates a list of the cells for easier access. The cells are added in the order they are created and
+     * can therefore be accessed by their list index (e.g. the cell at x:5, y:8 will be at index 85).
+     *
+     * @param gridSize The dimension of the cell grid.
+     */
+
     private void populateCells(int gridSize) {
 
         cellList = new ArrayList<>();
@@ -66,10 +89,14 @@ class GameGrid extends GridPane {
         }
     }
 
+    /**
+     * Executes indefinitely while the game is running, on a Timeline whose Keyframe can be modified to change the
+     * speed of the game. The method will continue to run every Keyframe until the stop or exit button is pressed.
+     */
 
     private void runGame() {
 
-        gameTimeline = new Timeline(new KeyFrame(Duration.seconds(0.2), (actionEvent -> evolveGrid())));
+        gameTimeline = new Timeline(new KeyFrame(Duration.seconds(0.1), (actionEvent -> evolveGrid())));
         startStopButton.setText("Stop");
         startStopButton.setOnAction(value -> pauseGame());
         gameTimeline.setCycleCount(Timeline.INDEFINITE);
@@ -77,6 +104,11 @@ class GameGrid extends GridPane {
 
     }
 
+    /**
+     * The main logic of Conway's Game Of Life. Iterates the grid according to the rules: any live cell with less than
+     * two or more than three live neighbours dies; any dead cell with exactly three live neighbours comes to life.
+     * This method is called by the runGame() method every keyframe.
+     */
     private void evolveGrid() {
 
 
@@ -98,6 +130,12 @@ class GameGrid extends GridPane {
         }
     }
 
+    /**
+     * Counts the live neighbours for each cell in the grid.
+     *
+     * @param list List of the cell's neighbours (which is a field of the CellButton object).
+     * @return The number of live neighbours for the given cell.
+     */
     private int getLiveNeighbours(ArrayList<Integer> list) {
 
         int count = 0;
@@ -108,6 +146,9 @@ class GameGrid extends GridPane {
 
     }
 
+    /**
+     * Pauses the game when the stop button is pressed. Changes the stop button to a start button.
+     */
     private void pauseGame() {
 
         gameTimeline.stop();
@@ -116,6 +157,9 @@ class GameGrid extends GridPane {
 
     }
 
+    /**
+     * Sets all cells to off.
+     */
     private void clearAllCells() {
 
         for (CellButton c : cellList) {
