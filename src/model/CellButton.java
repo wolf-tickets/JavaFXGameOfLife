@@ -111,7 +111,7 @@ class CellButton extends Button implements Comparable<CellButton> {
             this.on = false;
             this.setStyle(COLOUR_OFF);
         }
-//TODO: add fades
+//TODO: add fades:help
     }
 
     @Override

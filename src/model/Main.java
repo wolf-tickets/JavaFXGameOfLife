@@ -15,7 +15,7 @@ import java.io.IOException;
  * The Game Of Life is a cellular automaton invented by the mathematician John Conway in 1970. This is a simple
  * implementation in Java using the JavaFX UI library.
  *
- * @author Al Smith   al@whitefootsmiith.com
+ * @author Al Smith   al@whitefootsmith.com
  * @see <a href=http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life> Wikipedia.</a>
  * <p>
  * Because the Game is Turing-complete, there is no algorithm that can predict whether a given starting pattern
